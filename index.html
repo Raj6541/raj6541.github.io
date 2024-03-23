@@ -1,21 +1,25 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>M3U8 Player</title>
+  <title>M3U8 Player</title>
 </head>
 <body>
-    <h1>M3U8 Player</h1>
-    <input type="text" id="urlInput" placeholder="Enter M3U8 URL">
-    <button onclick="openPlayer()">Play</button>
+  <input type="text" id="urlInput" placeholder="Enter M3U8 URL">
+  <button id="playButton">Play</button>
+  <script>
+    const urlInput = document.getElementById('urlInput');
+    const playButton = document.getElementById('playButton');
 
-    <script>
-        function openPlayer() {
-            const url = document.getElementById("urlInput").value;
-            const playerUrl = `player.html?url=${encodeURIComponent(url)}`;
-            window.open(playerUrl, "_blank");
-        }
-    </script>
+    playButton.addEventListener('click', function() {
+      const m3u8Url = urlInput.value.trim();
+      if (m3u8Url === '') {
+        alert('Please enter a valid M3U8 URL');
+        return;
+      }
+
+      // Forward to /player?url=m3u8url
+      window.location.href = '/player?url=' + encodeURIComponent(m3u8Url);
+    });
+  </script>
 </body>
 </html>

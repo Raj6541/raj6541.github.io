@@ -1,25 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>M3U8 Player</title>
-</head>
-<body>
-  <input type="text" id="urlInput" placeholder="Enter M3U8 URL">
-  <button id="playButton">Play</button>
-  <script>
-    const urlInput = document.getElementById('urlInput');
-    const playButton = document.getElementById('playButton');
+const urlInput = document.getElementById('urlInput');
+const playButton = document.getElementById('playButton');
 
-    playButton.addEventListener('click', function() {
-      const m3u8Url = urlInput.value.trim();
-      if (m3u8Url === '') {
-        alert('Please enter a valid M3U8 URL');
-        return;
-      }
+playButton.addEventListener('click', function() {
+  const m3u8Url = urlInput.value.trim();
 
-      // Forward to /player?url=m3u8url
-      window.location.href = '/player?url=' + encodeURIComponent(m3u8Url);
-    });
-  </script>
-</body>
-</html>
+  // Basic validation
+  if (m3u8Url === '') {
+    alert('Please enter a valid M3U8 URL');
+    return;
+  }
+
+  // Regular expression for M3U8 URL format (example)
+  const urlPattern = /^(https?)\:\/\/[^\s\/]+\.m3u8$/;
+  if (!urlPattern.test(m3u8Url)) {
+    alert('Invalid M3U8 URL format. Please enter a valid URL ending with .m3u8');
+    return;
+  }
+
+  // Forward to /player?url=m3u8url
+  window.location.href = '/player?url=' + encodeURIComponent(m3u8Url);
+});

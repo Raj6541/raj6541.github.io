@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +8,12 @@
 <body>
     <h1>M3U8 Player</h1>
     <input type="text" id="urlInput" placeholder="Enter M3U8 URL">
-    <button onclick="openVideoInNewTab()">Play</button>
+    <button onclick="openPlayer()">Play</button>
 
     <script>
-        function openVideoInNewTab() {
+        function openPlayer() {
             const url = document.getElementById("urlInput").value;
-            const playerUrl = `/player?url=${encodeURIComponent(url)}`;
+            const playerUrl = `player.html?url=${encodeURIComponent(url)}`;
             window.open(playerUrl, "_blank");
         }
     </script>

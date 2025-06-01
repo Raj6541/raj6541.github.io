@@ -2,115 +2,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self';">
-    <title>Block Pop-ups and Redirects</title>
-    <script>
-        // Run immediately to block pop-ups and redirects before other scripts
-        (function() {
-            // Block window.open (pop-ups)
-            const originalOpen = window.open;
-            window.open = function(url, name, specs) {
-                console.log(`Blocked pop-up attempt to: ${url || 'unknown'}`);
-                return null; // Prevent pop-up
-            };
-            Object.defineProperty(window, 'open', {
-                value: function(url, name, specs) {
-                    console.log(`Blocked pop-up attempt to: ${url || 'unknown'}`);
-                    return null;
-                },
-                writable: false,
-                configurable: false
-            });
-
-            // Block redirects via window.location
-            const originalLocation = window.location;
-            Object.defineProperty(window, 'location', {
-                get: () => originalLocation,
-                set: (value) => {
-                    console.log(`Blocked redirect attempt to: ${value}`);
-                    // Optionally allow specific redirects
-                    // if (value.includes('your-domain.com')) {
-                    //     originalLocation.href = value;
-                    // }
-                },
-                configurable: false
-            });
-
-            // Block location methods
-            window.location.assign = function(url) {
-                console.log(`Blocked assign redirect to: ${url}`);
-                return false;
-            };
-            window.location.replace = function(url) {
-                console.log(`Blocked replace redirect to: ${url}`);
-                return false;
-            };
-            Object.defineProperty(window.location, 'href', {
-                get: () => originalLocation.href,
-                set: (value) => {
-                    console.log(`Blocked href redirect to: ${value}`);
-                },
-                configurable: false
-            });
-
-            // Block meta refresh tags
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('meta[http-equiv="refresh"]').forEach(meta => {
-                    console.log(`Removed meta refresh tag: ${meta.outerHTML}`);
-                    meta.remove();
-                });
-            });
-
-            // Block form redirects to external URLs
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('form').forEach(form => {
-                    form.addEventListener('submit', (event) => {
-                        const action = form.getAttribute('action') || '';
-                        if (action && !action.includes(window.location.hostname)) {
-                            event.preventDefault();
-                            console.log(`Blocked form redirect to: ${action}`);
-                        }
-                    });
-                });
-            });
-
-            // Block external link redirects
-            document.addEventListener('click', (event) => {
-                if (event.target.tagName === 'A' && event.target.href && !event.target.href.includes(window.location.hostname)) {
-                    event.preventDefault();
-                    console.log(`Blocked external link redirect to: ${event.target.href}`);
-                }
-            });
-
-            // Monitor iframes for redirects (optional)
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('iframe').forEach(iframe => {
-                    try {
-                        iframe.contentWindow.location = window.location;
-                        console.log('Iframe navigation restricted');
-                    } catch (e) {
-                        console.log('Could not restrict iframe: ', e.message);
-                    }
-                });
-            });
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prevent Redirect on All Links</title>
 </head>
 <body>
-    <h1>Test Blocking Pop-ups and Redirects</h1>
-    <p>Click the buttons below to test the blocking functionality.</p>
-    <button onclick="window.open('https://example.com', '_blank')">Test Pop-up</button>
-    <button onclick="window.location.href='https://example.com'">Test Redirect</button>
-    <a href="https://example.com">Test External Link</a>
-    <form action="https://example.com" method="post">
-        <button type="submit">Test Form Redirect</button>
-    </form>
+  <h1>Prevent Redirect Example</h1>
+  <a href="https://example.com">Link 1</a><br>
+  <a href="https://another-site.com">Link 2</a><br>
+  <a href="https://test.com">Link 3</a>
 
-    <script>
-        // Additional scripts can go here
-        // Example: Try to trigger a pop-up or redirect
-        console.log('Page loaded. Blocking scripts are active.');
-    </script>
+  <script>
+    // Add click event listener to all <a> tags
+    document.addEventListener('click', function(event) {
+      if (event.target.tagName === 'A') {
+        // Prevent the default redirect behavior
+        event.preventDefault();
+        // Stop event propagation to prevent other handlers
+        event.stopPropagation();
+        // Log to console for debugging
+        console.log('Redirect prevented for:', event.target.href);
+        // Optional: Add custom behavior
+        alert('Redirect prevented for: ' + event.target.href);
+      }
+    });
+  </script>
 </body>
 </html>

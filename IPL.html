@@ -1,17 +1,1 @@
 <iframe src="//stream.crichd.sc/update/star1hi.php" width="100%" height="500px" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allowfullscreen  allow="encrypted-media"></iframe>
-<script>
-  // Override window.open
-  window.open = function() {
-    console.log("Pop-up blocked!");
-    return null; // Prevent pop-up
-  };
-
-  // Alternatively, block pop-ups globally
-  window.addEventListener('beforeunload', function(event) {
-    // Check if the event is triggered by a pop-up attempt
-    if (event.target.activeElement.tagName === 'IFRAME') {
-      event.preventDefault();
-      console.log("Pop-up attempt blocked from iframe");
-    }
-  });
-</script>

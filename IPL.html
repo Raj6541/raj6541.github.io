@@ -1,1 +1,13 @@
 <iframe src="//stream.crichd.sc/update/star1hi.php" width="100%" height="500px" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allowfullscreen  allow="encrypted-media"></iframe>
+<script>
+  // Block known ad domains
+  const adDomains = ['doubleclick.net', 'adsense.google.com', 'example-ad-server.com'];
+  const originalFetch = window.fetch;
+  window.fetch = function(url, ...args) {
+    if (adDomains.some(domain => url.includes(domain))) {
+      console.log('Blocked ad request:', url);
+      return Promise.reject('Blocked by ad filter');
+    }
+    return originalFetch(url, ...args);
+  };
+</script>

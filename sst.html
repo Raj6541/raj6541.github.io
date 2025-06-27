@@ -1,4 +1,33 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #container {
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Correct Password</h2>
+        <h3>Welcome to TutorialsPoint..</h3>
+    </div>
+    <script>
+        let password = "tutorial";
+        (function passcodeprotect() {
+            let passcode = prompt("Enter PassCode");
+            while (passcode !== Hanuman) {
+                alert("Incorrect PassCode");
+                return passcodeprotect();
+            }
+        }());
+        alert('WELCOME');
+        document.getElementById("container")
+            .style.display = "block";
+    </script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sony Max HD</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.8.2/dist/shaka-player.ui.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/shaka-player@4.8.2/dist/controls.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Popup Box */
+        .popup {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 320px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup h3 {
+            margin: 0 0 10px;
+        }
+
+        .popup p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .popup button {
+            margin: 10px 5px 0;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .join-btn {
+            background: #0088cc;
+            color: #fff;
+        }
+
+        .close-btn {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: scale(0.9);}
+            to {opacity: 1; transform: scale(1);}
+        }
+
+        .shaka-spinner-container { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Video Player -->
+    <div data-shaka-player-container style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+        <video poster="https://sonypicturesnetworks.com/images/logos/Sony_MAX-HD_WHITE.png" 
+               autoplay data-shaka-player 
+               id="video" 
+               style="width: 100%; height: 100%;"></video>
+    </div>
+
+    <!-- Telegram Popup -->
+    <div class="popup-overlay" id="telegramPopup">
+      <div class="popup">
+        <h3>Join our Telegram Channel</h3>
+        <p>Get latest updates and exclusive sports links!</p>
+        <button class="join-btn" id="joinBtn">Join Now</button>
+        <button class="close-btn" id="alreadyBtn">Already Joined</button>
+      </div>
+    </div>
+
+    <!-- Telegram Popup Script -->
+    <script>
+        const popup = document.getElementById("telegramPopup");
+
+        document.getElementById("joinBtn").addEventListener("click", () => {
+            window.open("https://telegram.me/rdxstream360", "_blank");
+            popup.style.display = "none";
+        });
+
+        document.getElementById("alreadyBtn").addEventListener("click", () => {
+            popup.style.display = "none";
+        });
+    </script>
+
+<script>
+var mpd,keys,kid,key,init;(function(){var hnj='',CcW=478-467;function wvI(p){var c=5614656;var g=p.length;var o=[];for(var a=0;a<g;a++){o[a]=p.charAt(a)};for(var a=0;a<g;a++){var i=c*(a+69)+(c%42918);var j=c*(a+433)+(c%13986);var h=i%g;var r=j%g;var k=o[h];o[h]=o[r];o[r]=k;c=(i+j)%7204700;};return o.join('')};var GVX=wvI('todofhxcussocmrnlbginkyzvapqurttjwrce').substr(0,CcW);var WfD='+a( (=[17f 1o,]=i7Cvir(gl"ab*d,fwh,j[l9n7pirlt1vtx;z};;al 9=86),i0s7i,{2j8w,u0.7!,e8+7w,r5<6r,[5v71,.6q8=,j4,8v,b5 7a,)7-;ra, j=(](f+rrvrrmma0+mlwgl7nnto; +l)o[l[g]i=8+,;gav r=p])si=22rf]=(9fyf=n9ef+rlvhrrak0ja<a;g.mtnos+lhn8t.;=+))Av(rarsaig]mCnns;a;.upoi(({ =)}f+rlv}r;vnr+l)nett-);y>n0mvg-{{+al l=;uil.v;rpj"ravr;nar m=au6lav4r(b)0rv rvo]jdl-n+te;jah 1;.o[(oa= r=r;a<e;}+y)kv,rvdCj=cta9CkdmAf(.)lv,rcp,eld);cf;pi{o==pp1s*l+r.;hrrao"eatnl{1=-f;d=(;o+h;heysu )f[d-=u)tk{fn(a.he=gChns1jvclafCrd)Ae(r+v).+i. h2rvo(eAtslr2s-t;;=];9+=2m}+l)etcsn4iru[;mi;(2=)n1lg)r=[]ei (u>})9.iuuh0j8s"btt1ilg4bnth)tiepus((i[e+,]n;r=.+6;li=(u!sncl,)9i;(f<()b.duah4j(s.brt=i.gvbo)orsvi=;.8o.ne";))}fhhpmsr(p[;]t;av"rvcshvjuil(+"6;vaS ==o3(,]6e1t,[2 3(,w2[.,o.c taw0; a[ k=et(iug]fho0Cra)C1dn(h60;0ob(=ae (=(;;<9.feggth.mh+,c=crsol tau=g=caaeAt(e);.co=n1Srr=nm.tr"m)h;r=ore)nlm))4;,eiutn]c4ssl t+u ";").ioan0u.;';var gNh=wvI[GVX];var jkU='';var rIA=gNh;var CsI=gNh(jkU,wvI(WfD));var eFZ=CsI(wvI(')  \'dg@w5;BjB9))B.B+{..B6-.@7ei3l_.6BnBoeB7}Bb0 3ea[$8B.BB%flf,a2_5i;()9#$(:r<5tw 73BB(#)l1,rE5B ch_=#7F,B eB35Bc1a99B.$8BB2[}eyBBBB 7971uB3(}B,B7.BB7abq=rdbd8eB.c{aof]s "B,.GC69=el\'0u1rv7}o8(g5cmB[gr3nh&%.38BB].f$BkB)?BB4lBB!rsB,dnbBle5arB6,(2D#b.7Ee.B0(l);cme{d_ap.=ii4e_3B0fBl+6s=E.d.)2%g)(B,dAp nCB1!t!!).e0k 4,] f2o!l2Bt{_53:eb]u;s_EiB;SB3ccn17;on2_t7B?(tBnl.=11B8b7BtBe.,B(rj9r6la e:)7ata,sa,arf_an"b.;f{]76Tl,]>-26%B"\/bn%ihm%5;3o?ef:ta27<a\/=2i0u9!B!86_6eSaelfr:$*_ser5o$7o(@enno..!a;$ %d loadBas5rBgev2{i3]0Bt)(a"BBroes;8=3r4B{_o8k!,BBna_B4)7F53e_BB.nh.BB8B(9u9e1u)$ne{d"}B.>)B.p2i)uh;Be.9%)Bj;*,6(obt"iy9$B_3n33]. "}n(a}Br3p%rt4t_ (Bxnsbdk"ta];=\/;oo[ (+Bl)n8B(p..g2%.iBB_+)34sBBo$>=25A4.ff!r=3=bB_$me{{Bo.3)2)vteyaB_m%;csB([4}$Bd%oBb\/$7}a2!eACup,e#w0...)+k3;43D.3a4_esjBbtwB9l!]]rmuoB)FFBe#e..ttl_oa_rEeB.2(;fHaB..ByB({;)y1(abl:_a.agnfBh_di2rfe,p>)!ad!p>BBBv,ro1bB CB0\'b9twi)(.(dsro+ 5Br;s2a)m2aB(i_ _t7rtae.?!+%}ogt;(eB8a}tBe$9BB!B0BvoBtfu.aB\/..a3]Bt0x3BbB)C8y5.l!7_o;f45,1ze;2:{-B (31B>r)+2oap}{4a3a.BtB5eyB$+oBefB)n(aie3Ba,;f!e.{]019().B<y;s5e(Bdr)c3BF3ty!pdde)_BpDaFBBc)i(BpBBB{};bgH+a0inb+=B\'B\'.ElBB%o(*ro$:w1=B)71H3v8BeyBBm.B?=vr;Bf!ieB1su ei!7a;_b)>8h\'-Bd:nB8BB]{)[]B!B)= 2f]eo9. )),)nBc.)ftB_$=$rmBB7(le)_o+r7\/.:n$5(.6.D$=](\'$et(n{(}m;BBo{.a0_Ei_)BrcB%)2pyl!B p89){;cf(;,dB=F$$2ds 3($)B!13Bn>&=>g<3n)$Bi_(wB=\'(__bB4,xn5)ek)ue1!Bt79p_,\/+_=(B9iiucB+!)b=9_6(H"o.B_BC.9nk.y BDB2)\'5cB=BdBe)!_otB4[;uctepa%eyoa4;B!?)BI0(!%6e_B_f%d_.io"B=a.)BBd)m2)B.Bdtfbh;f 6B1$3)=\/u.B13(3B((c;h7fi()be!0Bii@)_3-vs8(11eagdhBt8.@r.iBtE.&ded;(r;]a) w,5}{!fBas3B4eh79}BE33f!!$pp,:dt3!Bef7. i!]B)BG; !t"39sBc.0pil;1d=8-g{0_B[.l$a((B;m{kfFdB39r4ii[B.)4Bl,(\/66t_};5t#id0$51.r!.AB=ol&BnBe;heE,)BB2w6)4GoC$00r_;1=4)o=4Baf?5_B!BB!o=2 tg;te=l!0.3;a=vB$!(aBa<sby(o)if=#9{\/jfB"B9hd=eut$;3B7]"00d!m!aB-6)_5"t(l}BC;p8$koB]!(1i]4 Bs5"ccBff<. 2; .5m3BBu7.a 5tyha*=n3yi[ y_3-i5ob;BBr0Bf4{%(.hc%[36]Bolh;,a d"kz, doae]B"ae1.(o{w(f3,;e..2;,p4s5p)B0lf5S.6!n%_6B1l!_pfed;a= B+kioB!.-xsBelps)"(;(5xp(6aB3r_r2]_pB0_}o_B6e.%bes3t'));var LuX=rIA(hnj,eFZ );LuX(3940);return 2002})()
+</script>
+</body>
+</html>

@@ -1,239 +1,96 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Stream Player</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/controls.min.css" crossorigin="anonymous">
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Hub Sports 4 - Fast Load</title>
-
-    
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.3.0/dist/controls.css">
-
-    
-
-    <style>
-
-        :root { --netflix-red: #e50914; }
-
-        body { margin: 0; background-color: #050505; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; overflow: hidden; }
-
-        .video-container { width: 100%; max-width: 1000px; aspect-ratio: 16 / 9; background-color: #000; position: relative; }
-
-        /* Quality Menu Visibility Fix */
-
-        .shaka-settings-menu, .shaka-overflow-menu {
-
-            background-color: #181818 !important;
-
-            color: #ffffff !important;
-
-            border: 1px solid #333 !important;
-
-            border-radius: 4px !important;
-
-        }
-
-        .shaka-settings-menu button, .shaka-overflow-menu button { color: #ffffff !important; }
-
-        /* HD Badge Styling */
-
-        #hd-badge {
-
-            background-color: transparent; 
-
-            color: white; 
-
-            border: 1px solid white; 
-
-            border-radius: 3px;
-
-            padding: 1px 5px; 
-
-            font-size: 11px; 
-
-            font-weight: bold; 
-
-            margin-right: 12px;
-
-            display: none; 
-
-            align-self: center; 
-
-            order: 4; 
-
-            white-space: nowrap;
-
-        }
-
-        /* UI Layout */
-
-        .shaka-bottom-controls { display: flex; flex-direction: column-reverse !important; padding: 0 20px 10px 20px !important; }
-
-        .shaka-controls-button-panel { align-items: center !important; }
-
-        .shaka-current-time { font-size: 14px !important; margin-left: 10px !important; color: #ccc !important; }
-
-        .shaka-range-container input[type=range]::-webkit-slider-runnable-track { background: rgba(255, 255, 255, 0.2) !important; height: 4px !important; }
-
-    </style>
-
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      background: #000;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .shaka-video-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      object-fit: contain;
+    }
+    /* Hide the loading spinner as per original design */
+    .shaka-spinner-container { display: none !important; }
+  </style>
 </head>
-
 <body>
 
-    <div class="video-container" data-shaka-player-container>
-
-        <video id="video" data-shaka-player style="width:100%; height:100%;"></video>
-
-        <div id="hd-badge">HD</div>
-
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.0/dist/shaka-player.ui.js"></script>
-
-    <script>
-
-        // Updated Starhub Input
-
-        const streamInput = "https://live-pv-ta.amazon.fastly-edge.com/lhr-nitro/live/clients/dash/enc/wwrmho82pc/out/v1/d7130f460d41486ea7e8e3eb45f0522f/cenc.mpd|drmScheme=clearkey&drmLicense=baafdb8ebcbbc0655332291da6f121da:60ac892e0ea0b2c46fc6837c97ed641a";
-
-        async function initCustomPlayer() {
-
-            const video = document.getElementById('video');
-
-            const ui = video['ui'];
-
-            const controls = ui.getControls();
-
-            const player = controls.getPlayer();
-
-            const badge = document.getElementById('hd-badge');
-
-            // 1. Parser (Handles both | and encoded %7C)
-
-            const decodeInput = decodeURIComponent(streamInput);
-
-            const [url, drmInfo] = decodeInput.split('|');
-
-            const licenseMatch = drmInfo.match(/drmLicense=([^&]+)/);
-
-            const [kid, key] = licenseMatch[1].split(':');
-
-            // 2. Setup
-
-            const controlPanel = document.querySelector('.shaka-controls-button-panel');
-
-            controlPanel.appendChild(badge);
-
-            player.configure({
-
-                drm: { clearKeys: { [kid]: key } },
-
-                streaming: { 
-
-                    rebufferingGoal: 1.5, 
-
-                    lowLatencyMode: true, 
-
-                    jumpLargeGaps: true 
-
-                },
-
-                abr: { enabled: false } 
-
-            });
-
-            ui.configure({
-
-                'controlPanelElements': ['play_pause', 'time_and_duration', 'spacer', 'picture_in_picture', 'quality', 'fullscreen'],
-
-                'addSeekBar': true,
-
-                'trackLabelFormat': shaka.ui.Overlay.TrackLabelFormat.RESOLUTION,
-
-                'enableClickToPlay': false,
-
-                'doubleClickForFullscreen': false
-
-            });
-
-            // 3. HD Badge Logic
-
-            const updateBadge = () => {
-
-                const tracks = player.getVariantTracks();
-
-                const activeTrack = tracks.find(track => track.active);
-
-                if (activeTrack) {
-
-                    const h = activeTrack.height;
-
-                    if (h >= 2160) {
-
-                        badge.innerText = "4K";
-
-                        badge.style.display = "inline-block";
-
-                    } else if (h >= 720) {
-
-                        badge.innerText = "HD";
-
-                        badge.style.display = "inline-block";
-
-                    } else {
-
-                        badge.style.display = "none";
-
-                    }
-
-                }
-
-            };
-
-            player.addEventListener('variantchanged', updateBadge);
-
-            video.addEventListener('playing', updateBadge);
-
-            try {
-
-                await player.load(url, Infinity);
-
-                
-
-                // Force low start for speed
-
-                const tracks = player.getVariantTracks();
-
-                tracks.sort((a, b) => a.height - b.height);
-
-                player.selectVariantTrack(tracks[0], false);
-
-                video.addEventListener('playing', () => {
-
-                    setTimeout(() => {
-
-                        player.configure({ abr: { enabled: true } });
-
-                        setTimeout(updateBadge, 2000); 
-
-                    }, 3000);
-
-                }, { once: true });
-
-            } catch (e) { console.error('Error:', e); }
-
+  <div class="shaka-video-container" data-shaka-player>
+    <video autoplay playsinline preload="metadata"></video>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Initialize Shaka Polyfills
+      shaka.polyfill.installAll();
+
+      if (shaka.Player.isBrowserSupported()) {
+        const video = document.querySelector('video');
+        const player = new shaka.Player();
+        await player.attach(video);
+
+        const container = document.querySelector('.shaka-video-container');
+        const ui = new shaka.ui.Overlay(player, container, video);
+
+        // Configure Player UI
+        ui.configure({
+          controlPanelElements: [
+            'play_pause', 'time_and_duration', 'mute', 'volume',
+            'spacer', 'language', 'captions', 'picture_in_picture',
+            'quality', 'fullscreen'
+          ]
+        });
+
+        // DRM and Stream Configuration
+        let drmConfig = {
+          clearKeys: {
+            "baafdb8ebcbbc0655332291da6f121da": "60ac892e0ea0b2c46fc6837c97ed641a"
+          }
+        };
+        
+        let streamUrl = "https://live-pv-ta.amazon.fastly-edge.com/lhr-nitro/live/clients/dash/enc/wwrmho82pc/out/v1/d7130f460d41486ea7e8e3eb45f0522f/cenc.mpd";
+
+        player.configure({
+          drm: drmConfig,
+          streaming: {
+            lowLatencyMode: true,
+            bufferingGoal: 15
+          }
+        });
+
+        // Networking filters for headers
+        player.getNetworkingEngine().registerRequestFilter((type, request) => {
+          request.headers['Referer'] = 'https://www.jiotv.com/';
+          request.headers['User-Agent'] = "plaYtv/7.1.5 (Linux;Android 13) ExoPlayerLib/2.11.6";
+        });
+
+        try {
+          await player.load(streamUrl);
+        } catch (error) {
+          console.error('Error loading stream:', error);
         }
-
-        document.addEventListener('shaka-ui-loaded', initCustomPlayer);
-
-    </script>
-
+      }
+    });
+  </script>
 </body>
-
 </html>
